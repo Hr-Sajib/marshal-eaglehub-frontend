@@ -1,3 +1,4 @@
+
 import React from "react";
 
 import Image from "next/image";
@@ -62,6 +63,7 @@ export const featureData: FeatureType[] = [
 ];
 
 export default function FeatureCard() {
+
   return (
     <LeftBorder>
       <div className="  lg:py-10 lg:px-6">
