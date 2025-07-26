@@ -1,4 +1,4 @@
-// baseApi.ts
+// redux/api/baseApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getCookie } from "cookies-next";
 
@@ -17,5 +17,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery,
+  tagTypes: ["Products", "Orders"], // Only non-user related tags
   endpoints: () => ({}),
 });
