@@ -1,6 +1,6 @@
-// baseApi.ts
+// redux/api/baseApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getCookie } from "cookies-next";
+// import { getCookie } from "cookies-next";
 
 console.log("backend api, ", `${process.env.NEXT_PUBLIC_URL}`);
 
@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
-    const token = localStorage.getItem("accessTooken")
+    const token = localStorage.getItem("accessToken");
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
@@ -19,5 +19,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery,
+  tagTypes: ["Products", "Orders", "User"], // Only non-user related tags
   endpoints: () => ({}),
 });
