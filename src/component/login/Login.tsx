@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useUser } from "@/context/UserContext";
+import { loginUser } from "@/services/auth";
+import tokenDecoder from "@/utils/tokenDecoder";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaFacebookF, FaApple, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -19,11 +24,24 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
+  const { fetchAndSetUser, user } = useUser();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     router.push("/login-success");
     console.log("Login Data:", data);
-    // handle login logic here (e.g., API call)
+    try {
+      const res = await loginUser(data);
+      const decode: any = tokenDecoder(res?.data?.accessToken);
+      if (res.success) {
+        toast.success(`${decode?.role || "Login successful!"}`);
+        await fetchAndSetUser();
+        router.push("/");
+      } else {
+        toast.error(`${res.message ? res.message : "Registration failed"}`);
+      }
+    } catch (error: any) {
+      toast.error(`${error?.message || "An error occurred"}`);
+    }
   };
 
   return (
