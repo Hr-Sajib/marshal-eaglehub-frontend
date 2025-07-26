@@ -1,36 +1,19 @@
-import { configureStore } from "@reduxjs/toolkit";
-import {
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import { baseApi } from "./api/baseApi";
-// import storage from "./storage";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { baseApi } from './api/baseApi';
 
-// const persistConfig = {
-//   key: "cart",
-//   storage,
-// };
 
-export const makeStore = () => {
-  return configureStore({
-   reducer: {
-      [baseApi.reducerPath]: baseApi.reducer,
-      // Add other reducers here if needed
-    },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(baseApi.middleware),
-    devTools: process.env.NODE_ENV !== "production",
-  });
-};
+export const store = configureStore({
+  reducer: {
+    [baseApi.reducerPath]: baseApi.reducer, // Use baseApi reducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware), // Only baseApi middleware
+});
 
-export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
+setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

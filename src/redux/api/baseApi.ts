@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
-    const token = getCookie("accessToken");
+    const token = localStorage.getItem("accessTooken")
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
