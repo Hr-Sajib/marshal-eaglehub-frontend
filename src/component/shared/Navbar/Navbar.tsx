@@ -54,7 +54,7 @@ const Navbar = () => {
             ))}
 
             <Link
-              href={"/founder-influencer"}
+              href={"/login"}
               className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition"
             >
               Login
@@ -89,7 +89,7 @@ const Navbar = () => {
             </Link>
           ))}
           <Link
-            href={"/founder-influencer"}
+            href={"/login"}
             className="bg-red-600 px-10 py-3 mt-6 rounded hover:bg-red-700 text-white   inline-block transition"
           >
             Login

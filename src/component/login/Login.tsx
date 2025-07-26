@@ -3,6 +3,7 @@
 import { useUser } from "@/context/UserContext";
 import { loginUser } from "@/services/auth";
 import tokenDecoder from "@/utils/tokenDecoder";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,7 +25,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
-  const { fetchAndSetUser, user } = useUser();
+  const { fetchAndSetUser } = useUser();
 
   const onSubmit = async (data: FormData) => {
     router.push("/login-success");
@@ -113,9 +114,9 @@ export default function LoginForm() {
 
         <div className="text-center text-white text-xs underline">
           Don’t have an account?{" "}
-          <a href="#" className="text-red-500 hover:underline">
+          <Link href="/founder-influencer" className="text-red-400 hover:underline">
             Sign Up
-          </a>
+          </Link>
         </div>
 
         <div className="relative my-6">
