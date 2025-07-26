@@ -2,7 +2,7 @@
 
 import Popups from "@/component/ai-bots/Popups";
 import ProjectForm from "@/component/allForms/ProjectForm";
-import DiscoverCard from "@/component/discover/DiscoverCard";
+import DiscoverCard from "@/component/Tools/DiscoverCard";
 import MultiPic from "@/component/home/influencer/UserPic";
 import Container from "@/component/shared/Container";
 import MainButton from "@/component/shared/MainButton";
