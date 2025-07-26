@@ -83,12 +83,7 @@ export default function FounderAndInfluencer() {
                   >
                     User
                   </Link>
-                  <Link
-                    href={`/register?role=${UserRole.ADMIN}`}
-                    className="px-8 py-4 bg-transparent min-h-[150px] flex justify-center items-center border-4 border-red-600 hover:bg-red-600 rounded-2xl text-3xl text-white transition col-span-full sm:col-span-1"
-                  >
-                    Admin
-                  </Link>
+                  
                 </div>
               </div>
             </div>
