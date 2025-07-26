@@ -1,14 +1,22 @@
 /* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { registerUser } from "@/services/auth";
-import { UserRole } from "@/types/auth/auth.type";
-import { useRouter } from "next/navigation";
+import { useRegisterUserMutation } from "@/redux/api/Auth/authApi";
+import {  useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaFacebookF, FaApple, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+
+export enum UserRole {
+  INFLUENCER = "influencer",
+  FOUNDER = "founder",
+  INVESTOR = "investor",
+  USER = "user",
+  ADMIN = "admin",
+}
 
 type FormData = {
   firstName: string;
@@ -17,11 +25,9 @@ type FormData = {
   password: string;
   confirmPassword: string;
   phone: string;
-  role: UserRole;
   isActive: boolean;
   additionalNotes?: string;
   
-
   // Investor specific
   investorData?: {
     projectTypes: string;
@@ -58,16 +64,18 @@ type FormData = {
   };
 };
 
+type RegisterFormProps = {
+  role: UserRole;
+};
+
 export default function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    resetField
   } = useForm<FormData>({
     defaultValues: {
-      role: UserRole.USER,
       isActive: true
     }
   });
@@ -75,12 +83,15 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
-  
-  const selectedRole = watch("role");
+
+  const getRoleFromSearchParams = useSearchParams()
+  const role = getRoleFromSearchParams.get("role");
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const onSubmit = async (data: FormData) => {
+
     try {
-      const {  ...userData } = data;
+      const { confirmPassword, ...userData } = data;
       
       // Prepare the payload based on role
       let payload: any = {
@@ -89,46 +100,58 @@ export default function RegisterForm() {
         email: userData.email,
         password: userData.password,
         phone: userData.phone,
-        role: userData.role,
+        role: role,
         isActive: userData.isActive,
         additionalNotes: userData.additionalNotes || ""
       };
 
       // Add role-specific data
-      if (userData.role === UserRole.INVESTOR && userData.investorData) {
+      if (role === UserRole.INVESTOR && userData.investorData) {
         payload.investorData = userData.investorData;
-      } else if (userData.role === UserRole.FOUNDER && userData.founderData) {
+      } else if (role === UserRole.FOUNDER && userData.founderData) {
         payload.founderData = userData.founderData;
-      } else if (userData.role === UserRole.INFLUENCER && userData.influencerData) {
+      } else if (role === UserRole.INFLUENCER && userData.influencerData) {
         payload.influencerData = userData.influencerData;
       }
 
-      const res = await registerUser(payload);
+      const response = await registerUser(payload).unwrap();
+    
+      console.log("Registration Response:", response);
+
       
-      if (res.success) {
+      if (response.success) {
         toast.success("Registration successful!");
-        router.push("/");
+        router.push("/login");
       } else {
-        toast.error(res.message || "Registration failed");
+        toast.error(response.message || "Registration failed");
       }
     } catch (error: any) {
       toast.error(error?.message || "An error occurred");
     }
   };
 
-  // Reset role-specific fields when role changes
-  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newRole = e.target.value as FormData["role"];
-    if (newRole !== UserRole.INVESTOR) resetField("investorData");
-    if (newRole !== UserRole.FOUNDER) resetField("founderData");
-    if (newRole !== UserRole.INFLUENCER) resetField("influencerData");
+  const getRoleTitle = () => {
+    switch(role) {
+      case UserRole.INVESTOR:
+        return "Investor";
+      case UserRole.FOUNDER:
+        return "Founder";
+      case UserRole.INFLUENCER:
+        return "Influencer";
+      case UserRole.ADMIN:
+        return "Admin";
+      default:
+        return "User";
+    }
   };
+
+
 
   return (
     <div className="flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl space-y-6 bg-gradient-to-b rounded-lg shadow-md p-6">
         <h2 className="text-3xl font-bold text-white text-center mb-6">
-          Register for EGEAL AI HUB
+          Register as {getRoleTitle()}
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -274,32 +297,8 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          {/* Role Selection */}
-          <div className="bg-gray-900/50 p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-white mb-4">Role Information</h3>
-            <div>
-              <label className="text-white block mb-1 text-sm">Role *</label>
-              <select
-                {...register("role", { required: "Role is required" })}
-                onChange={handleRoleChange}
-                className="w-full px-4 py-2 rounded border border-red-600 text-white bg-black focus:outline-none focus:ring-2 focus:ring-red-600"
-              >
-                <option value="user">Regular User</option>
-                <option value="single">Single User</option>
-                <option value="investor">Investor</option>
-                <option value="influencer">Influencer</option>
-                <option value="founder">Founder</option>
-              </select>
-              {errors.role && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.role.message}
-                </p>
-              )}
-            </div>
-          </div>
-
           {/* Investor Specific Fields */}
-          {selectedRole === UserRole.INVESTOR && (
+          {role === UserRole.INVESTOR && (
             <div className="space-y-4 p-4 border border-gray-700 rounded-lg bg-gray-900/50">
               <h3 className="text-xl font-semibold text-white mb-4">Investor Details</h3>
               
@@ -429,7 +428,7 @@ export default function RegisterForm() {
           )}
 
           {/* Founder Specific Fields */}
-          {selectedRole === UserRole.FOUNDER && (
+          {role === UserRole.FOUNDER && (
             <div className="space-y-4 p-4 border border-gray-700 rounded-lg bg-gray-900/50">
               <h3 className="text-xl font-semibold text-white mb-4">Startup Details</h3>
               
@@ -599,8 +598,8 @@ export default function RegisterForm() {
             </div>
           )}
 
-          {/* Influencer Specific Fields (unchanged from previous implementation) */}
-          {selectedRole === UserRole.INFLUENCER && (
+          {/* Influencer Specific Fields */}
+          {role === UserRole.INFLUENCER && (
             <div className="space-y-4 p-4 border border-gray-700 rounded-lg bg-gray-900/50">
               <h3 className="text-xl font-semibold text-white mb-4">Influencer Information</h3>
               

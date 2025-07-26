@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../../public/logo.png"; // Place your logo in /public
 import Link from "next/link";
+import { DecodedUser } from "@/types/auth/auth.type";
+import { getCurrentAuthUser } from "@/hooks/useCurrentUser";
 
 type NavLink = {
   label: string;
@@ -13,7 +15,32 @@ type NavLink = {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<DecodedUser | null>(null);
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setUser(null);
+    // Optionally, redirect to login or home page
+    window.location.href = "/login";
+  }
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const userData = await getCurrentAuthUser();
+        if (userData) {
+          setUser(userData as DecodedUser);
+        } else {
+          console.error("No user data found");
+        }
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
+
+  console.log("Current User:", user);
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
@@ -32,7 +59,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2 ">
-            <Link  href={"/"}>
+            <Link href={"/"}>
               <Image src={logo} alt="Logo" width={178} height={85} />
             </Link>
             {/* <h1 className="font-bold text-xl">
@@ -53,12 +80,19 @@ const Navbar = () => {
               </Link>
             ))}
 
-            <Link
-              href={"/login"}
-              className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition"
-            >
-              Login
-            </Link>
+
+            {user ? (
+              <button onClick={handleLogout} className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition">
+                Logout
+              </button>
+            ) : (
+              <Link
+                href={"/login"}
+                className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

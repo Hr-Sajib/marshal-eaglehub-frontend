@@ -3,7 +3,7 @@ import { baseApi } from "../baseApi";
 
 const ChatManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllTools: builder.query({
+    getMyChats: builder.query({
       query: () => "/chat",
       
      
@@ -32,4 +32,10 @@ const ChatManagementApi = baseApi.injectEndpoints({
   
   }),
 });
+
+export const {
+  useGetMyChatsQuery
+}=ChatManagementApi
+
+export default ChatManagementApi
 
