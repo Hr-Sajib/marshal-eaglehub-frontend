@@ -1,3 +1,5 @@
+'use client'
+
 import CourseReview from "@/component/aiCourse/CourseReview";
 import FeatureCard from "@/component/aiCourse/FeatureCard";
 import AddNewCourseForm from "@/component/allForms/AddNewCourseForm";
@@ -10,6 +12,8 @@ import SubHeader from "@/component/shared/SubHeader";
 import React from "react";
 
 const page = () => {
+
+
   return (
     <div>
       <Container>
