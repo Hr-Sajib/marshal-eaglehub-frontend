@@ -1,4 +1,3 @@
-// redux/api/authApi.ts
 
 import { baseApi } from "../baseApi";
 
