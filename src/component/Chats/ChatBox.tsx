@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label"
 import { Send, Search, MoreVertical, Edit, Trash2, Plus, Phone, Video, Info } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useGetMyChatsQuery } from "@/redux/api/chat/chat.slice.api"
 
 interface User {
   id: string
@@ -134,6 +135,7 @@ const initialMessages: Message[] = [
   },
 ]
 
+
 export default function ChatApp() {
   const [users, setUsers] = useState<User[]>(initialUsers)
   const [messages, setMessages] = useState<Message[]>(initialMessages)
@@ -142,7 +144,9 @@ export default function ChatApp() {
   const [searchQuery, setSearchQuery] = useState("")
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const [isAddUserOpen, setIsAddUserOpen] = useState(false)
+const {data,isError,isLoading}=useGetMyChatsQuery(undefined)
 
+console.log(data)
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -150,6 +154,7 @@ export default function ChatApp() {
   )
 
   const handleSendMessage = () => {
+    console.log(newMessage)
     if (newMessage.trim()) {
       const message: Message = {
         id: Date.now().toString(),
