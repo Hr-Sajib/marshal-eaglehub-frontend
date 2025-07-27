@@ -7,6 +7,7 @@ import logo from "../../../../public/logo.png"; // Place your logo in /public
 import Link from "next/link";
 import { DecodedUser } from "@/types/auth/auth.type";
 import { getCurrentAuthUser } from "@/hooks/useCurrentUser";
+import { usePathname } from "next/navigation";
 
 type NavLink = {
   label: string;
@@ -16,7 +17,7 @@ type NavLink = {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<DecodedUser | null>(null);
-
+    const pathname = usePathname(); // ✅ current route
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setUser(null);
@@ -46,7 +47,7 @@ const Navbar = () => {
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
-    { label: "AI Course", href: "/ai-course" },
+    { label: "99 AI Projects", href: "/ai-course" },
     { label: "Discover", href: "/discover-trending" },
     { label: "AI Bots", href: "/ai-bots" },
     { label: "Make money", href: "/make-maney" },
@@ -72,15 +73,20 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center space-x-8 xl:space-x-14">
-            {links.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                className="block text-sm hover:text-red-500"
-              >
-                {link.label}
-              </Link>
-            ))}
+             {links.map((link, index) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={index}
+                  href={link.href}
+                  className={`block text-sm transition ${
+                    isActive ? "text-red-500 font-semibold" : "hover:text-red-500"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             {user ? (
               <button
@@ -117,15 +123,20 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden  text-white px-4 pt-2 pb-4 space-y-2">
-          {links.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className="block text-sm hover:text-red-500"
-            >
-              {link.label}
-            </Link>
-          ))}
+         {links.map((link, index) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                className={`block text-sm transition ${
+                  isActive ? "text-red-500 font-semibold" : "hover:text-red-500"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <Link
             href={"/login"}
             className="bg-red-600 px-10 py-3 mt-6 rounded hover:bg-red-700 text-white   inline-block transition"

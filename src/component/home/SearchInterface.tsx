@@ -51,7 +51,8 @@ export default function AISearchInterface() {
               <MainButton title="Free Secret" />
               <div className="pt-[18px]">
                 <h2 className=" md:text-2xl font-bold text-white leading-tight">
-                  Make Money With Egeal AI Right Now (10-Min Video)
+                  How EGEAL Works — For Founders & Influencers (10-Min Video)
+
                 </h2>
               </div>
             </div>
