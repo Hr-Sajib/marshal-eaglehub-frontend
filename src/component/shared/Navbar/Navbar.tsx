@@ -5,8 +5,6 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../../public/logo.png"; // Place your logo in /public
 import Link from "next/link";
-import { DecodedUser } from "@/types/auth/auth.type";
-import { getCurrentAuthUser } from "@/hooks/useCurrentUser";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { currentUser, logOut } from "@/redux/api/Auth/auth.slice";
 
