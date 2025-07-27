@@ -1,11 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from '../baseApi';
 
-export const participantApiSlice = createApi({
-  reducerPath: 'participantApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['Participant'],
-  endpoints: (builder) => ({
-    addParticipant: builder.mutation({
+export const participantApiSlice = baseApi.injectEndpoints({
+  endpoints: (Builder) => ({
+    addParticipant: Builder.mutation({
       query: (participantData) => ({
         url: '/participant/create-participant',
         method: 'POST',

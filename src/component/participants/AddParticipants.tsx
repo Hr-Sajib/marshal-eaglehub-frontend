@@ -1,196 +1,275 @@
-// "use client";
-// import { useGetGiveawaysQuery } from '@/redux/api/Giveaway/giveawayApi';
-// import { useAddParticipantMutation } from '@/redux/api/Participant/participantApiSlice';
-// import { useState } from 'react';
+"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useGetAllOngoingGiveawayQuery } from "@/redux/api/Giveaway/giveawayApi";
+import { useAddParticipantMutation } from "@/redux/api/Participant/participantApiSlice";
+import { useState, ChangeEvent, FormEvent } from "react";
+import toast from "react-hot-toast";
+import Container from "../shared/Container";
+import { IGiveaway } from "@/types/giveaway/giveaway";
 
-// export default function AddParticipant() {
-//   const [formData, setFormData] = useState({
-//     giveawayId: '',
-//     socialUsername: '',
-//     videoLink: '',
-//     proofs: [{ ruleTitle: '', imageUrl: '' }]
-//   });
+interface Proof {
+  ruleTitle: string;
+  imageUrl: string;
+}
 
-//   const { data: giveaways = [], isLoading } = useGetGiveawaysQuery();
-//   const [addParticipant] = useAddParticipantMutation();
+interface ParticipantFormData {
+  giveawayId: string;
+  socialUsername: string;
+  videoLink: string;
+  proofs: Proof[];
+}
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData(prev => ({ ...prev, [name]: value }));
-//   };
+export default function AddParticipantForm() {
+  const [formData, setFormData] = useState<Omit<ParticipantFormData, 'proofs'>>({
+    giveawayId: "",
+    socialUsername: "",
+    videoLink: "",
+  });
 
-//   const handleProofChange = (index, e) => {
-//     const { name, value } = e.target;
-//     const newProofs = [...formData.proofs];
-//     newProofs[index][name] = value;
-//     setFormData(prev => ({ ...prev, proofs: newProofs }));
-//   };
+  const [proofs, setProofs] = useState<Proof[]>([]);
+  const [addParticipant, { isLoading }] = useAddParticipantMutation();
+  const { data } = useGetAllOngoingGiveawayQuery();
+  const giveaways = data?.data as IGiveaway[] || [];
 
-//   const addProof = () => {
-//     setFormData(prev => ({
-//       ...prev,
-//       proofs: [...prev.proofs, { ruleTitle: '', imageUrl: '' }]
-//     }));
-//   };
+  const handleGiveawaySelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const giveawayId = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      giveawayId,
+      socialUsername: "",
+      videoLink: ""
+    }));
+  };
 
-//   const removeProof = (index) => {
-//     if (formData.proofs.length <= 1) return;
-//     const newProofs = [...formData.proofs];
-//     newProofs.splice(index, 1);
-//     setFormData(prev => ({ ...prev, proofs: newProofs }));
-//   };
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await addParticipant(formData).unwrap();
-//       alert('Participant added successfully!');
-//       // Reset form
-//       setFormData({
-//         giveawayId: '',
-//         socialUsername: '',
-//         videoLink: '',
-//         proofs: [{ ruleTitle: '', imageUrl: '' }]
-//       });
-//     } catch (err) {
-//       alert(`Error: ${err.data?.message || 'Failed to add participant'}`);
-//     }
-//   };
+  const handleProofTitleChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    const newProofs = [...proofs];
+    newProofs[index].ruleTitle = e.target.value;
+    setProofs(newProofs);
+  };
 
-//   return (
-//     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-//       <h2 className="text-2xl font-bold text-center mb-6">Add New Participant</h2>
-      
-//       <form onSubmit={handleSubmit} className="space-y-4">
-//         <div>
-//           <label htmlFor="giveawayId" className="block text-sm font-medium text-gray-700 mb-1">
-//             Giveaway
-//           </label>
-//           <select
-//             id="giveawayId"
-//             name="giveawayId"
-//             value={formData.giveawayId}
-//             onChange={handleChange}
-//             required
-//             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//           >
-//             <option value="">Select a giveaway</option>
-//             {isLoading ? (
-//               <option disabled>Loading giveaways...</option>
-//             ) : (
-//               giveaways.map(giveaway => (
-//                 <option key={giveaway._id} value={giveaway._id}>
-//                   {giveaway.title} ({giveaway._id})
-//                 </option>
-//               ))
-//             )}
-//           </select>
-//         </div>
+  const handleProofChange = async (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-//         <div>
-//           <label htmlFor="socialUsername" className="block text-sm font-medium text-gray-700 mb-1">
-//             Social Media Username
-//           </label>
-//           <input
-//             type="text"
-//             id="socialUsername"
-//             name="socialUsername"
-//             value={formData.socialUsername}
-//             onChange={handleChange}
-//             required
-//             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             placeholder="Enter username"
-//           />
-//         </div>
+    const formDataToSend = new FormData();
+    formDataToSend.append("image", file);
 
-//         <div>
-//           <label htmlFor="videoLink" className="block text-sm font-medium text-gray-700 mb-1">
-//             Video Link (Optional)
-//           </label>
-//           <input
-//             type="url"
-//             id="videoLink"
-//             name="videoLink"
-//             value={formData.videoLink}
-//             onChange={handleChange}
-//             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             placeholder="https://youtube.com/watch?v=..."
-//           />
-//         </div>
+    try {
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
 
-//         <div className="space-y-4">
-//           <label className="block text-sm font-medium text-gray-700">
-//             Proofs of Completion
-//           </label>
+      const result = await response.json();
+      console.log("Image upload result:", result?.data);
 
-//           {formData.proofs.map((proof, index) => (
-//             <div key={index} className="bg-gray-50 p-4 rounded-md space-y-3">
-//               <div>
-//                 <label htmlFor={`ruleTitle-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-//                   Rule Title
-//                 </label>
-//                 <input
-//                   type="text"
-//                   id={`ruleTitle-${index}`}
-//                   name="ruleTitle"
-//                   value={proof.ruleTitle}
-//                   onChange={(e) => handleProofChange(index, e)}
-//                   required
-//                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   placeholder="Follow our Instagram page"
-//                 />
-//               </div>
+      if (!response.ok || !result.data?.url) {
+        throw new Error("Image upload failed");
+      }
 
-//               <div>
-//                 <label htmlFor={`imageUrl-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-//                   Image URL
-//                 </label>
-//                 <input
-//                   type="url"
-//                   id={`imageUrl-${index}`}
-//                   name="imageUrl"
-//                   value={proof.imageUrl}
-//                   onChange={(e) => handleProofChange(index, e)}
-//                   required
-//                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   placeholder="https://example.com/proof.jpg"
-//                 />
-//               </div>
+      const imageUrl = result.data.url;
+      const newProofs = [...proofs];
+      newProofs[index].imageUrl = imageUrl;
+      setProofs(newProofs);
 
-//               {formData.proofs.length > 1 && (
-//                 <button
-//                   type="button"
-//                   onClick={() => removeProof(index)}
-//                   className="text-red-600 text-sm font-medium hover:text-red-800 flex items-center"
-//                 >
-//                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-//                   </svg>
-//                   Remove Proof
-//                 </button>
-//               )}
-//             </div>
-//           ))}
+      toast.success("Proof uploaded!");
+    } catch (error) {
+      toast.error("Failed to upload image");
+      console.error("Upload error:", error);
+    }
+  };
 
-//           <button
-//             type="button"
-//             onClick={addProof}
-//             className="flex items-center text-blue-600 text-sm font-medium hover:text-blue-800"
-//           >
-//             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-//             </svg>
-//             Add Another Proof
-//           </button>
-//         </div>
+  const addNewProofField = () => {
+    setProofs([...proofs, { ruleTitle: "", imageUrl: "" }]);
+  };
 
-//         <button
-//           type="submit"
-//           className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-//         >
-//           Submit Participant
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
+  const removeProof = (index: number) => {
+    const newProofs = [...proofs];
+    newProofs.splice(index, 1);
+    setProofs(newProofs);
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.giveawayId) {
+      toast.error("Please select a giveaway");
+      return;
+    }
+
+    if (proofs.some(proof => !proof.imageUrl || !proof.ruleTitle)) {
+      toast.error("Please provide all required proofs and their titles");
+      return;
+    }
+
+    try {
+      const submissionData = {
+        ...formData,
+        proofs
+      };
+
+      console.log("Submitting participant data:", submissionData);
+      const response = await addParticipant(submissionData).unwrap();
+
+      console.log("Response from API:", response);
+      if (response.success) {
+        toast.success("Successfully joined the giveaway!");
+        setFormData({
+          giveawayId: formData.giveawayId,
+          socialUsername: "",
+          videoLink: "",
+        });
+        setProofs([]);
+      } else {
+        toast.error(response.message || "Failed to join giveaway");
+      }
+    } catch (error: any) {
+      toast.error(error.data?.message || "Failed to join giveaway");
+      console.error("Submission error:", error);
+    }
+  };
+
+  return (
+    <Container>
+      <div className="p-6 my-20 max-w-3xl mx-auto bg-[#000000] border border-red-700 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-white mb-6">🎉 Join a Giveaway</h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-white font-semibold mb-1">
+              Select Giveaway *
+            </label>
+            <select
+              value={formData.giveawayId}
+              onChange={handleGiveawaySelect}
+              className="w-full border border-red-600 text-white bg-[#000000] p-3 rounded-md"
+              required
+            >
+              <option value="">-- Select a giveaway --</option>
+              {giveaways?.map((giveaway: any) => (
+                <option key={giveaway._id} value={giveaway._id}>
+                  {giveaway.title} (Prize: ${giveaway.priceMoney})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-white font-semibold mb-1">
+              Social Media Username *
+            </label>
+            <input
+              type="text"
+              name="socialUsername"
+              value={formData.socialUsername}
+              onChange={handleInputChange}
+              className="w-full border border-red-600 text-white p-3 rounded-md"
+              placeholder="@yourhandle"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-white font-semibold mb-1">
+              Video Link (Optional)
+            </label>
+            <input
+              type="url"
+              name="videoLink"
+              value={formData.videoLink}
+              onChange={handleInputChange}
+              className="w-full border border-red-600 text-white p-3 rounded-md"
+              placeholder="https://example.com/video"
+            />
+          </div>
+
+          {proofs.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-white border-b border-gray-600 pb-2">
+                📸 Required Proofs
+              </h3>
+
+              {proofs.map((proof, index) => (
+                <div
+                  key={`proof-${index}`}
+                  className="border border-red-600 p-4 rounded-md bg-gray-900"
+                >
+                  <div className="mb-3">
+                    <label className="block text-white font-medium mb-1">
+                      Requirement Title:
+                    </label>
+                    <input
+                      type="text"
+                      value={proof.ruleTitle}
+                      onChange={(e) => handleProofTitleChange(index, e)}
+                      className="w-full bg-gray-800 border border-gray-600 text-white p-2 rounded-md"
+                      placeholder="Enter proof requirement"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-medium mb-1">
+                      Upload Proof Image:
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleProofChange(index, e)}
+                      className="w-full bg-gray-800 border border-gray-600 text-white p-2 rounded-md"
+                      required
+                    />
+                    {proof.imageUrl && (
+                      <div className="mt-2 text-green-400 text-sm">
+                        ✓ Image uploaded successfully
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeProof(index)}
+                    className="mt-2 text-red-400 text-sm hover:text-red-300"
+                  >
+                    Remove this proof
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={addNewProofField}
+                className="flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md"
+              >
+                <span>+</span> Add Additional Proof
+              </button>
+            </div>
+          )}
+
+          {proofs.length === 0 && (
+            <button
+              type="button"
+              onClick={addNewProofField}
+              className="flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md"
+            >
+              <span>+</span> Add First Proof
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading || proofs.length === 0}
+            className="w-full py-3 px-4 bg-red-700 text-white rounded-md hover:bg-red-800 disabled:bg-red-800 font-semibold"
+          >
+            {isLoading ? "Submitting..." : "Join Giveaway"}
+          </button>
+        </form>
+      </div>
+    </Container>
+  );
+}

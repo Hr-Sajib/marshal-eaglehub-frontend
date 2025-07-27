@@ -1,5 +1,5 @@
 "use client";
-// import AddParticipant from "@/component/participants/AddParticipants";
+import AddParticipant from "@/component/participants/AddParticipants";
 import Container from "@/component/shared/Container";
 import MainHeader from "@/component/shared/MainHeader";
 import RedShadow from "@/component/shared/RedShadow";
@@ -38,7 +38,7 @@ export default function Page() {
           <div className="space-x-4 space-y-2 "></div>
         </MainHeader>
 
-        {/* <AddParticipant/> */}
+        <AddParticipant/>
       </Container>
     </div>
   );

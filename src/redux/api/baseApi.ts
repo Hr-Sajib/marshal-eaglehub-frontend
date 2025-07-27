@@ -2,8 +2,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // import { getCookie } from "cookies-next";
 
-console.log("backend api, ", `${process.env.NEXT_PUBLIC_URL}`);
-
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_URL,
   credentials: "include",
@@ -19,6 +17,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery,
-  tagTypes: ["Products", "Orders", "User", "Giveaway", "CurrentGiveaway"], // Only non-user related tags
+  tagTypes: ["Products", "Orders", "User", "Giveaway", "CurrentGiveaway", "AllOngoingGiveawayIds", "Participant"], // Only non-user related tags
   endpoints: () => ({}),
 });

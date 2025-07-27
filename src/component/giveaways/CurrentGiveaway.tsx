@@ -9,7 +9,6 @@ export default function CurrentGiveaways() {
 
   const { data: giveaways = [] } = useGetCurrentGiveawayQuery();
 
-  console.log("Current Giveaways Data:", giveaways);
 
   return (
     <div className="min-h-screen bg-black text-white px-4 py-10">

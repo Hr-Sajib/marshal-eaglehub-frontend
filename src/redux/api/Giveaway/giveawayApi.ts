@@ -17,6 +17,10 @@ export const giveawayApi = baseApi.injectEndpoints({
       query: () => "/giveaway",
       providesTags: ["Giveaway"],
     }),
+    getAllOngoingGiveaway: builder.query<any, void>({
+      query: () => "/giveaway/ongoing-giveaways",
+      providesTags: ["AllOngoingGiveawayIds"],
+    }),
     getGiveawayStats: builder.query<any, void>({
       query: () => "/giveaway/stats",
       providesTags: ["Giveaway"],
@@ -56,4 +60,5 @@ export const {
   useDeleteGiveawayMutation,
   useGetGiveawayStatsQuery,
   useGetCurrentGiveawayQuery,
+  useGetAllOngoingGiveawayQuery,
 } = giveawayApi;
