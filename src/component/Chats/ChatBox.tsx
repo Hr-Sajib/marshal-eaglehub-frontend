@@ -154,6 +154,7 @@ console.log(data)
   )
 
   const handleSendMessage = () => {
+    console.log(newMessage)
     if (newMessage.trim()) {
       const message: Message = {
         id: Date.now().toString(),
