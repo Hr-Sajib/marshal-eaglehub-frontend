@@ -14,7 +14,7 @@ export const giveawayApi = baseApi.injectEndpoints({
       invalidatesTags: ["Giveaway"],
     }),
     getGiveaways: builder.query({
-      query: () => "/giveaways",
+      query: () => "/giveaway",
       providesTags: ["Giveaway"],
     }),
     getGiveawayStats: builder.query<any, void>({

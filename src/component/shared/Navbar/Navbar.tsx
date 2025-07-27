@@ -1,6 +1,6 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../../public/logo.png"; // Place your logo in /public
@@ -15,16 +15,14 @@ type NavLink = {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const users=useAppSelector(currentUser)
-const dispatch=useAppDispatch()
+  const users = useAppSelector(currentUser);
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
-    dispatch(logOut())
+    dispatch(logOut());
     window.location.href = "/login";
   };
 
-  console.log(users)
-
-
+  console.log(users);
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
