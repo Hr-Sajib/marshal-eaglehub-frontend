@@ -8,6 +8,10 @@ import { FaFacebookF, FaApple, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useLoginUserMutation } from "@/redux/api/Auth/authApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { setUser } from "@/redux/api/Auth/auth.slice";
+import { configureStore } from "@reduxjs/toolkit";
 
 type FormData = {
   email: string;
@@ -23,16 +27,23 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [loginUser, { isLoading }] = useLoginUserMutation();
-
+  const dispatch = useAppDispatch();
   const onSubmit = async (data: FormData) => {
     try {
       const response = await loginUser(data).unwrap();
 
+      const {email,role,id}=jwtDecode(response.data.accessToken) as any
       
+
+      console.log("this is decode data", )
+ dispatch(setUser({ user:{email:email,role:role,id:id}, token: response.data.accessToken }));
+      console.log(response)
+      // const decodeUser=jwtDecode(response.)
       // Store token if available
       if (response.data?.accessToken) {
         localStorage.setItem("accessToken", response.data.accessToken);
       }
+
 
       // Redirect to success page first
       router.push("/login-success");

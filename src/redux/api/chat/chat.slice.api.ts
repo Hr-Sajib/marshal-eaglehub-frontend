@@ -6,35 +6,35 @@ const ChatManagementApi = baseApi.injectEndpoints({
     getMyChats: builder.query({
       query: () => "/chat",
       
-     
     }),
-    addTool: builder.mutation<any, any>({
-      query: (order) => ({
+    createChate: builder.mutation<any, any>({
+      query: (data) => ({
         url: "/chat",
         method: "POST",
-        body: order,
+        body: data,
       }),
     
     }),
-    giteSingleOrder: builder.query({
-      query: (id) => `/order/${id}`,
+     sendMessage: builder.mutation<any, any>({
+      query: ({id,data}) => ({
+        url: `/chat/${id}/messages`,
+        method: "POST",
+        body: data
+      }),
+    
     }),
   
-    updateOrder: builder.mutation<any, any>({
-      query: ({ id, ...patch }) => ({
-        url: `/order/${id}`, // Changed to singular to match your backend
-        method: "PATCH",
-        body: patch,
-      }),
-     
-    }),
-   
+  
   
   }),
 });
 
 export const {
-  useGetMyChatsQuery
+  useGetMyChatsQuery,
+  useSendMessageMutation
+  ,
+  useCreateChateMutation
+  
 }=ChatManagementApi
 
 export default ChatManagementApi
