@@ -25,7 +25,7 @@ const Navbar = () => {
   console.log(users);
 
   const links: NavLink[] = [
-    { label: "About", href: "/about" },
+    // { label: "About", href: "/about" },
     { label: "AI Course", href: "/ai-course" },
     { label: "Discover", href: "/discover-trending" },
     { label: "AI Bots", href: "/ai-bots" },
@@ -33,6 +33,7 @@ const Navbar = () => {
     { label: "Founder", href: "/founder-dashboard" },
     { label: "Influencer", href: "/influencer-dashboard" },
     { label: "Giveaways", href: "/giveaways" },
+    { label: "Current-Giveaways", href: "/current-giveaway" },
   ];
 
   return (

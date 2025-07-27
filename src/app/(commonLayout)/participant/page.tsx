@@ -1,15 +1,14 @@
-import FounderSetup from "@/component/giveaways/FounderSetup";
-import FundsHandling from "@/component/giveaways/FundHandling";
-import GiveawayStatus from "@/component/giveaways/GiveawaysStatus";
-import JoinInstructions from "@/component/giveaways/JoinInstruction";
-import VerifiedByAiBot from "@/component/giveaways/VerifiedByAi";
+"use client";
+// import AddParticipant from "@/component/participants/AddParticipants";
 import Container from "@/component/shared/Container";
 import MainHeader from "@/component/shared/MainHeader";
 import RedShadow from "@/component/shared/RedShadow";
 import Image from "next/image";
 import React from "react";
 
-export default function page() {
+export default function Page() {
+
+
   return (
     <div>
       <RedShadow />
@@ -17,7 +16,7 @@ export default function page() {
         <MainHeader
           title={
             <>
-              Run or Join Giveaways <br /> & Win Big
+             Explore and join as a participant <br /> & Win Big
               <div className="text-center">
                 <Image
                   src={"/line.svg"}
@@ -31,8 +30,7 @@ export default function page() {
           }
           subtitle={
             <>
-              Explore exciting giveaways and get a chance to win fantastic
-              prizes
+              Explore exciting giveaways and get a chance to win fantastic prizes
             </>
           }
           className="rounded-lg"
@@ -40,13 +38,7 @@ export default function page() {
           <div className="space-x-4 space-y-2 "></div>
         </MainHeader>
 
-        <FounderSetup />
-        {/* <CurrentGiveaways /> */}
-        {/* <GiveawaysTable /> */}
-        <JoinInstructions />
-        <GiveawayStatus />
-        <VerifiedByAiBot />
-        <FundsHandling />
+        {/* <AddParticipant/> */}
       </Container>
     </div>
   );
