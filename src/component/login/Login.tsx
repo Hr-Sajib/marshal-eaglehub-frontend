@@ -27,6 +27,8 @@ export default function LoginForm() {
   const onSubmit = async (data: FormData) => {
     try {
       const response = await loginUser(data).unwrap();
+
+      
       // Store token if available
       if (response.data?.accessToken) {
         localStorage.setItem("accessToken", response.data.accessToken);
@@ -36,11 +38,11 @@ export default function LoginForm() {
       router.push("/login-success");
       
       // Show success message with role if available
-      if (response.data?.accessToken) {
+      if (response.success) {
         const role = response.data?.role || "user";
         toast.success(`Login successful as ${role}!`);
       } else {
-        toast.success("Login successful!");
+        toast.error(`Login failed: ${response.message || "Please try again."}`);
       }
 
       // Then redirect to home

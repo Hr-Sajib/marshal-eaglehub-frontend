@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useRegisterUserMutation } from "@/redux/api/Auth/authApi";
+import { FormData } from "@/types/auth/auth.type";
 import {  useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,55 +19,6 @@ export enum UserRole {
   ADMIN = "admin",
 }
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  phone: string;
-  isActive: boolean;
-  additionalNotes?: string;
-  
-  // Investor specific
-  investorData?: {
-    projectTypes: string;
-    investmentRange: string;
-    dealCriteria: string;
-    investmentStage: string;
-    sectors: string;
-    avgInvestmentSize: string;
-    locationPreferences: string;
-    portfolioCompanies?: string;
-  };
-  
-  // Founder specific
-  founderData?: {
-    projectName: string;
-    projectDescription: string;
-    hasLiveProduct: boolean;
-    websiteOrDemoLink: string;
-    investmentType: string;
-    fundingAmount: string;
-    stage: string;
-    teamSize: string;
-    revenueModel: string;
-    traction?: string;
-    competitors?: string;
-  };
-  
-  // Influencer specific
-  influencerData?: {
-    socialMediaProfiles: string;
-    followerCount: string;
-    areasOfInfluence: string;
-    primaryPlatform: string;
-  };
-};
-
-type RegisterFormProps = {
-  role: UserRole;
-};
 
 export default function RegisterForm() {
   const {
@@ -116,7 +68,6 @@ export default function RegisterForm() {
 
       const response = await registerUser(payload).unwrap();
     
-      console.log("Registration Response:", response);
 
       
       if (response.success) {
