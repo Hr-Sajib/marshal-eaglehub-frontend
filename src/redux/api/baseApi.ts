@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Authorization", `${token}`);
     }
     return headers;
   },
@@ -17,6 +17,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery,
-  tagTypes: ["Products", "Orders", "User"], // Only non-user related tags
+  tagTypes: ["Products", "Orders", "User", "Giveaway"], // Only non-user related tags
   endpoints: () => ({}),
 });

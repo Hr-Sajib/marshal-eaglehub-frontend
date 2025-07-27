@@ -17,18 +17,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<DecodedUser | null>(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    setUser(null);
-    // Optionally, redirect to login or home page
-    window.location.href = "/login";
-  };
-
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const userData = await getCurrentAuthUser();
-
         console.log("Fetched User Data:", userData);
         if (userData) {
           setUser(userData as DecodedUser);
@@ -42,7 +34,31 @@ const Navbar = () => {
     fetchCurrentUser();
   }, []);
 
-  console.log("Current User:", user);
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setUser(null);
+    // Optionally, redirect to login or home page
+    window.location.href = "/login";
+  };
+
+  // useEffect(() => {
+  //   const fetchCurrentUser = async () => {
+  //     try {
+  //       const userData = await getCurrentAuthUser();
+
+  //       console.log("Fetched User Data:", userData);
+  //       if (userData) {
+  //         setUser(userData as DecodedUser);
+  //       } else {
+  //         console.error("No user data found");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error decoding token:", error);
+  //     }
+  //   };
+  //   fetchCurrentUser();
+  // }, []);
+
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
