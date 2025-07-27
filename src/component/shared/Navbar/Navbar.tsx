@@ -22,12 +22,14 @@ const Navbar = () => {
     setUser(null);
     // Optionally, redirect to login or home page
     window.location.href = "/login";
-  }
+  };
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const userData = await getCurrentAuthUser();
+
+        console.log("Fetched User Data:", userData);
         if (userData) {
           setUser(userData as DecodedUser);
         } else {
@@ -80,9 +82,11 @@ const Navbar = () => {
               </Link>
             ))}
 
-
             {user ? (
-              <button onClick={handleLogout} className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition">
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition"
+              >
                 Logout
               </button>
             ) : (

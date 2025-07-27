@@ -1,4 +1,6 @@
 export default function FounderSetup() {
+
+  
   return (
     <div className=" text-white p-8 rounded-lg py-32 md:mx-32">
       <div className="text-center mb-8">

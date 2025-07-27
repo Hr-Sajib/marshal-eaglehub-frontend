@@ -16,6 +16,7 @@ export const getCurrentAuthUser = async (): Promise<DecodedUser | null> => {
   if (token) {
     try {
       const decoded = jwtDecode<DecodedUser>(token);
+      console.log("Decoded User:", decoded);
       return decoded;
     } catch (error) {
       console.error("Error decoding token:", error);
