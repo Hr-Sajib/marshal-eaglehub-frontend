@@ -136,6 +136,7 @@ const initialMessages: Message[] = [
 ]
 
 
+
 export default function ChatApp() {
   const [users, setUsers] = useState<User[]>(initialUsers)
   const [messages, setMessages] = useState<Message[]>(initialMessages)
@@ -146,7 +147,10 @@ export default function ChatApp() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false)
 const {data,isError,isLoading}=useGetMyChatsQuery(undefined)
 const [sendMessage]=useSendMessageMutation()
-console.log(data)
+
+const userData=data?.data
+console.log('this is data',userData)
+
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
