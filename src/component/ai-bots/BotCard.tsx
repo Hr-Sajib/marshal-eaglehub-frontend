@@ -18,7 +18,7 @@ export default function BotCard({ tool }: { tool: IBots }) {
             <h3 className="text-base md:text-[20px] font-semibold ">{tool.title}</h3>
 
             {/* Description */}
-            <p className="text-[0.94rem] font-normal mb-4">{tool.description}</p>
+            <p className="text-[0.94rem] font-normal mb-3">{tool.description}</p>
 
         
             <MainButton title="Explore" />
