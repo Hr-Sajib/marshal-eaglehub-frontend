@@ -92,7 +92,6 @@ console.log(data)
                 <h2 className="text-[23px] leading-[1.21] font-semibold mb-2 ">
                   {item.title}
                 </h2>
-
                 <ul className=" text-start text-[16px] mt-2 text-[#FFFFFF]  space-y-1">
                   {item.description.map((point, index) => (
                     <li className="leading-[25px]" key={index}>
