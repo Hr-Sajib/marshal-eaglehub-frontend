@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label"
 import { Send, Search, MoreVertical, Edit, Trash2, Plus, Phone, Video, Info } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useGetMyChatsQuery, useSendMessageMutation } from "@/redux/api/chat/chat.slice.api"
+import { useAppSelector } from "@/redux/hooks"
+import { currentUser } from "@/redux/api/Auth/auth.slice"
 
 interface User {
   id: string
@@ -147,7 +149,8 @@ export default function ChatApp() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false)
 const {data,isError,isLoading}=useGetMyChatsQuery(undefined)
 const [sendMessage]=useSendMessageMutation()
-
+const [curentChatId,setCurrentChatId]=useState(String)
+const user=useAppSelector(currentUser)
 const userData=data?.data
 console.log('this is data',userData)
 
@@ -156,23 +159,27 @@ console.log('this is data',userData)
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.promotion.title.toLowerCase().includes(searchQuery.toLowerCase()),
   )
+  const filteredCurrentChat = userData?.filter(
+    (datas:any) =>
+      datas?._id?.includes(curentChatId) 
+     
+  )||[]
+
+  const chatData=filteredCurrentChat[0]
+  const chatBoxData=chatData?.conversation
+  console.log('this is the currren filter chat',chatBoxData)
 
   const handleSendMessage =async ( ) => {
-
-const message=await sendMessage(newMessage)
-
-    console.log(newMessage)
-    if (newMessage.trim()) {
-      const message: Message = {
-        id: Date.now().toString(),
-        senderId: "me",
+      const messages = {
+        currenId:chatData?._id,
+        senderId: user?.role,
         content: newMessage,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        type: "text",
-      }
-      setMessages([...messages, message])
-      setNewMessage("")
     }
+
+    const message=await sendMessage(messages)
+
+    console.log("this is user ", message)
   }
 
   const handleDeleteUser = (userId: string) => {
@@ -228,6 +235,11 @@ const handleUpdateUser = (updated: User | Omit<User, "id">) => {
     }
   }
 
+  const handileClickCurrentChat=(id:string)=>{
+setCurrentChatId(id)
+console.log(curentChatId)
+  }
+
   return (
     <div className="flex h-screen bg-black">
       {/* Left Sidebar - Users List */}
@@ -266,50 +278,52 @@ const handleUpdateUser = (updated: User | Omit<User, "id">) => {
         {/* Users List - Scrollable */}
         <ScrollArea className="flex-1 overflow-hidden">
           <div className="p-2">
-            {filteredUsers.map((user) => (
-              <Card
-                key={user.id}
+            {userData?.map((user:any) => (
+              <Card 
+                key={user?._id}
+
+                onClick={()=>handileClickCurrentChat(user?._id)}
                 className={`mb-2 cursor-pointer transition-all duration-200 bg-gray-800 border-gray-700 hover:bg-gray-750 ${
-                  selectedUser.id === user.id ? "ring-2 ring-red-500 bg-gray-750" : ""
+                  selectedUser?.id === user?.id ? "ring-2 ring-red-500 bg-gray-750" : ""
                 }`}
-                onClick={() => setSelectedUser(user)}
+               
               >
                 <CardContent className="p-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3 flex-1">
                       <div className="relative">
                         <Avatar className="h-10 w-10 ring-2 ring-gray-600">
-                          <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                          <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={user?.name} />
                           <AvatarFallback className="bg-gray-700 text-white">
-                            {user.name
+                            {user?.influencerId?.userId?.firstName
                               .split(" ")
-                              .map((n) => n[0])
+                              .map((n:any) => n[0])
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
                         <div
-                          className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-gray-800 ${getStatusColor(user.status)}`}
+                          className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-gray-800 ${getStatusColor(user?.status)}`}
                         />
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-medium text-white truncate">{user.name}</h3>
-                          <span className="text-xs text-gray-400">{user.timestamp}</span>
+                          <h3 className="font-medium text-white truncate">  {user?.influencerId?.userId?.firstName } {user?.influencerId?.userId?.lastName}</h3>
+                          <span className="text-xs text-gray-400">{user?.timestamp}</span>
                         </div>
-                        <p className="text-sm text-gray-300 truncate">{user.lastMessage}</p>
+                        <p className="text-sm text-gray-300 truncate">{user?.lastMessage}</p>
 
                         {/* Promotion Info */}
                         <div className="mt-2 space-y-1">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-gray-200">{user.promotion.title}</span>
-                            <Badge className={`text-xs ${getPromotionStatusColor(user.promotion.status)}`}>
-                              {user.promotion.status}
+                            <span className="text-xs font-medium text-gray-200">{user?.promotion?.title}</span>
+                            <Badge className={`text-xs ${getPromotionStatusColor(user?.promotion?.status)}`}>
+                              {user?.promotion?.status}
                             </Badge>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-red-400">{user.promotion.discount}</span>
-                            <span className="text-xs text-gray-400">Until {user.promotion.validUntil}</span>
+                            <span className="text-xs font-bold text-red-400">{user?.promotion?.discount}</span>
+                            <span className="text-xs text-gray-400">Until {user?.promotion?.validUntil}</span>
                           </div>
                         </div>
                       </div>
@@ -335,7 +349,7 @@ const handleUpdateUser = (updated: User | Omit<User, "id">) => {
                           Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => handleDeleteUser(user.id)}
+                          onClick={() => handleDeleteUser(user?.id)}
                           className="text-red-400 hover:bg-gray-700 focus:bg-gray-700"
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
@@ -394,19 +408,19 @@ const handleUpdateUser = (updated: User | Omit<User, "id">) => {
         {/* Messages Area - Scrollable */}
         <ScrollArea className="flex-1 bg-black overflow-hidden">
           <div className="p-4 space-y-4">
-            {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.senderId === "me" ? "justify-end" : "justify-start"}`}>
+            {chatBoxData?.map((message:any) => (
+              <div key={message?._id} className={`flex ${message?.sender === user?.role ? "justify-end" : "justify-start"}`}>
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                    message.senderId === "me"
+                    message.sender === user?.role
                       ? "bg-red-600 text-white"
                       : "bg-gray-800 text-gray-100 border border-gray-700"
                   }`}
                 >
-                  <p className="text-sm">{message.content}</p>
-                  <p className={`text-xs mt-1 ${message.senderId === "me" ? "text-red-100" : "text-gray-400"}`}>
-                    {message.timestamp}
-                  </p>
+                  <p className="text-sm">{message?.messageText}</p>
+                  {/* <p className={`text-xs mt-1 ${message?.sender === user?.role ? "bg-red-500" : "text-gray-400"}`}>
+                    {message?.messageText}
+                  </p> */}
                 </div>
               </div>
             ))}
@@ -415,6 +429,7 @@ const handleUpdateUser = (updated: User | Omit<User, "id">) => {
 
         {/* Message Input - Fixed */}
         <div className="bg-gray-800 border-t border-gray-700 p-4 flex-shrink-0">
+          
           <div className="flex items-center space-x-2">
             <Input
               placeholder="Type a message..."
