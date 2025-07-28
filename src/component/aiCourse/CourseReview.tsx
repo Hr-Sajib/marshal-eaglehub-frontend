@@ -28,18 +28,18 @@ const CourseReview: React.FC<ReviewsSectionProps> = ({
   ],
 }) => {
   // Function to render stars
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <span
-        key={index}
-        className={`text-lg ${
-          index < rating ? "text-yellow-400" : "text-gray-600"
-        }`}
-      >
-        ★
-      </span>
-    ));
-  };
+  // const renderStars = (rating: number) => {
+  //   return Array.from({ length: 5 }, (_, index) => (
+  //     <span
+  //       key={index}
+  //       className={`text-lg ${
+  //         index < rating ? "text-yellow-400" : "text-gray-600"
+  //       }`}
+  //     >
+  //       ★
+  //     </span>
+  //   ));
+  // };
 
   return (
     <div className=" ">

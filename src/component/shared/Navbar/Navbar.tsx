@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../../public/logo.png"; // Place your logo in /public
@@ -16,10 +16,10 @@ type NavLink = {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const users=useAppSelector(currentUser)
-const dispatch=useAppDispatch()
+  const users = useAppSelector(currentUser);
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
-    dispatch(logOut())
+    dispatch(logOut());
     window.location.href = "/login";
   };
 
@@ -36,6 +36,8 @@ const pathname =usePathname()
     { label: "Founder", href: "/founder-dashboard" },
     { label: "Influencer", href: "/influencer-dashboard" },
     { label: "Giveaways", href: "/giveaways" },
+    { label: "Current-Giveaways", href: "/current-giveaway" },
+    { label: "Participant", href: "/participant" },
   ];
 
   return (

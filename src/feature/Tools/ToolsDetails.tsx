@@ -10,12 +10,11 @@ import { useGetUserByIdQuery } from "@/redux/api/Auth/authApi";
 import { FaTrash, FaEdit, FaLink, FaShoppingCart } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-
-import axios from 'axios';
+import React, { useEffect } from "react";
 import { useGetAffiliateDeatilsDataQuery } from "@/redux/api/affiliate/affiliateApi";
 
-export default function ToolDetails({id}:{id:string}) {
+export default function ToolDetails() {
+
   const params = useParams();
   const toolId = params?.id as string;
   const router = useRouter();
@@ -54,7 +53,6 @@ export default function ToolDetails({id}:{id:string}) {
  console.log("Data===>>",influencerId)
  
 
-  // Affiliate click tracking
   useEffect(() => {
     const influencerId = new URLSearchParams(window.location.search).get("ref");
     const source = new URLSearchParams(window.location.search).get("source");

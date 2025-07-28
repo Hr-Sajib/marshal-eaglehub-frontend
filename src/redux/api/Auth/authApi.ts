@@ -1,38 +1,3 @@
-
-// import { baseApi } from "../baseApi";
-
-// export const authApi = baseApi.injectEndpoints({
-//   endpoints: (builder) => ({
-//     registerUser: builder.mutation({
-//       query: (userData) => ({
-//         url: "/user",
-//         method: "POST",
-//         body: userData,
-//       }),
-//       invalidatesTags: ["User"],
-//     }),
-//     loginUser: builder.mutation({
-//       query: (credentials) => ({
-//         url: "/auth/login",
-//         method: "POST",
-//         body: credentials,
-//       }),
-//       invalidatesTags: ["User"],
-//     }),
-//     getCurrentUser: builder.query({
-//       query: () => "/auth/me",
-//       providesTags: ["User"],
-//     }),
-//   }),
-// });
-
-// export const {
-//   useRegisterUserMutation,
-//   useLoginUserMutation,
-//   useGetCurrentUserQuery,
-// } = authApi;
-
-
 import { baseApi } from "../baseApi";
 
 // Define interfaces based on Postman response
@@ -84,11 +49,26 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    getCurrentUser: builder.query({
+      query: () => "/auth/me", 
+      providesTags: ["User"],
+      // still not use
+    }),
     getUserById: builder.query<UserResponse, string>({
       query: (id) => `/user/${id}`,
       providesTags: ["User"],
     }),
+    getRoleBasedUserInfo: builder.query({
+      query: (userId) => `/user/get-roleBase-info/${userId}`,
+      providesTags: ["getRoleBasedUserInfo"],
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation, useGetUserByIdQuery } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useGetCurrentUserQuery,
+  useGetRoleBasedUserInfoQuery,
+  useGetUserByIdQuery
+} = authApi;

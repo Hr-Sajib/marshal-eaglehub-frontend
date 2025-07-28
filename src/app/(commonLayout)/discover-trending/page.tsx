@@ -13,7 +13,7 @@ import { RightBorder } from "@/component/shared/RightBorder";
 import SubButton from "@/component/shared/SubButtton";
 import React, { useState } from "react";
 
-const page = () => {
+const DiscoverTrendingPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   return (
     <div>
@@ -77,4 +77,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DiscoverTrendingPage;
