@@ -13,6 +13,7 @@ import Container from "../shared/Container";
 import Testimonial from "./Testimonials";
 import WhatYouCanDo from "./WhatYouCanDo";
 import WhoIsEgealFor from "./WhoIsEgealFor";
+import LoadingSpinner from "../shared/Loading";
 
 const Home = () => {
 
@@ -44,6 +45,7 @@ const Home = () => {
       <AiStartUp />
     </Container>
     <Testimonial/>
+    {/* <LoadingSpinner></LoadingSpinner> */}
 
   </div>;
 
