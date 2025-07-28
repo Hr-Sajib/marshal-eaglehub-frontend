@@ -33,8 +33,6 @@
 // } = authApi;
 
 
-
-
 import { baseApi } from "../baseApi";
 
 // Define interfaces based on Postman response
@@ -43,6 +41,8 @@ interface RoleData {
   userId: string;
   tools: string[];
   additionalNotes: string;
+  influencerId?:string 
+,
   __v: number;
 }
 
@@ -84,20 +84,11 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    getCurrentUser: builder.query<UserResponse, void>({
-      query: () => "/auth/me",
-      providesTags: ["User"],
-    }),
-    getUser: builder.query<UserResponse, string>({
+    getUserById: builder.query<UserResponse, string>({
       query: (id) => `/user/${id}`,
       providesTags: ["User"],
     }),
   }),
 });
 
-export const {
-  useRegisterUserMutation,
-  useLoginUserMutation,
-  useGetCurrentUserQuery,
-  useGetUserQuery,
-} = authApi;
+export const { useRegisterUserMutation, useLoginUserMutation, useGetUserByIdQuery } = authApi;
