@@ -28,7 +28,7 @@ const dispatch=useAppDispatch()
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
-    { label: "AI Course", href: "/ai-course" },
+    { label: "AI Course", href: "/tool" },
     { label: "Discover", href: "/discover-trending" },
     { label: "AI Bots", href: "/ai-bots" },
     { label: "Make money", href: "/make-maney" },

@@ -26,7 +26,7 @@ export const toolApi = baseApi.injectEndpoints({
     // Get a single tool by ID
     getTool: builder.query<ToolResponse, string>({
       query: (id) => ({
-        url: `/tools/${id}`,
+        url: `/tools/by-toolid/${id}`,
         method: 'GET',
       }),
     }),
