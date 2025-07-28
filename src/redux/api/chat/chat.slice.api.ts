@@ -15,9 +15,9 @@ const ChatManagementApi = baseApi.injectEndpoints({
       }),
     
     }),
-     sendMessage: builder.mutation<any, any>({
-      query: ({data}) => ({
-        url: `/chat/${data?.currenId}/messages`,
+     sendMessage: builder.mutation<any, {id:string,data:any}>({
+      query: ({id,...data}) => ({
+        url: `/chat/${id}/messages`,
         method: "POST",
         body: data
       }),
