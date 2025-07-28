@@ -26,7 +26,9 @@ const Navbar = () => {
 
   const links: NavLink[] = [
     // { label: "About", href: "/about" },
+    // { label: "About", href: "/about" },
     { label: "AI Course", href: "/ai-course" },
+    { label: "AI Tool", href: "/tool" },
     { label: "Discover", href: "/discover-trending" },
     { label: "AI Bots", href: "/ai-bots" },
     { label: "Make money", href: "/make-maney" },
