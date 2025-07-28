@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import { ReactNode } from "react";
 
 export interface HeaderProps {
@@ -17,7 +17,7 @@ export default function MainHeader({ title,header, subtitle, children, className
 
             <div className="relative z-10 text-center flex flex-col items-center px-4 mt-16">
                 <h3 className="text-lg md:text-[24px] text-white">{header}</h3>
-                <h1 className="text-[28px] md:text-[45px]  text-white leading-tight">{title}</h1>
+                <h1 className="text-[28px] md:text-[45px] mb-5 text-white leading-tight">{title}</h1>
                 
 
 

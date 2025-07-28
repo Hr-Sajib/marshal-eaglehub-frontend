@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../baseApi";
 
 
@@ -15,8 +16,8 @@ const ChatManagementApi = baseApi.injectEndpoints({
       }),
     
     }),
-     sendMessage: builder.mutation<any, any>({
-      query: ({id,data}) => ({
+     sendMessage: builder.mutation<any, {id:string,data:any}>({
+      query: ({id,...data}) => ({
         url: `/chat/${id}/messages`,
         method: "POST",
         body: data

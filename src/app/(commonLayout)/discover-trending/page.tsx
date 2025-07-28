@@ -2,7 +2,7 @@
 
 import Popups from "@/component/ai-bots/Popups";
 import ProjectForm from "@/component/allForms/ProjectForm";
-import DiscoverCard from "@/component/Tools/DiscoverCard";
+import DiscoverCard from "@/component/shared/DiscoverCard";
 import MultiPic from "@/component/home/influencer/UserPic";
 import Container from "@/component/shared/Container";
 import MainButton from "@/component/shared/MainButton";
@@ -11,9 +11,9 @@ import RedShadow from "@/component/shared/RedShadow";
 
 import { RightBorder } from "@/component/shared/RightBorder";
 import SubButton from "@/component/shared/SubButtton";
-import React, { useState } from "react";
+import { useState } from "react";
 
-const page = () => {
+const DiscoverTrendingPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   return (
     <div>
@@ -77,4 +77,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DiscoverTrendingPage;

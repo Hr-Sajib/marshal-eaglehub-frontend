@@ -41,6 +41,8 @@ export default function page() {
         </MainHeader>
 
         <FounderSetup />
+        {/* <CurrentGiveaways /> */}
+        {/* <GiveawaysTable /> */}
         <JoinInstructions />
         <GiveawayStatus />
         <VerifiedByAiBot />

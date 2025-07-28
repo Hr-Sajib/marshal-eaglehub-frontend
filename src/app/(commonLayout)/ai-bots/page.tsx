@@ -2,7 +2,7 @@ import AiToolsPage from '@/component/ai-bots/AITools'
 import MainButton from '@/component/shared/MainButton'
 import MainHeader from '@/component/shared/MainHeader'
 import RedShadow from '@/component/shared/RedShadow'
-import React from 'react'
+
 
 export default function page() {
   return (

@@ -11,6 +11,9 @@ import BrowseTools from "./BrowseAiTools";
 import AiStartUp from "./AiStartUp";
 import Container from "../shared/Container";
 import Testimonial from "./Testimonials";
+import WhatYouCanDo from "./WhatYouCanDo";
+import WhoIsEgealFor from "./WhoIsEgealFor";
+import LoadingSpinner from "../shared/Loading";
 
 const Home = () => {
 
@@ -21,24 +24,28 @@ const Home = () => {
 
   return <div>
     <Container>
-      <MainHeader title={<>Discover the Next Viral Al Tools — or Get Paid <br /> to Help Launch Them
-      </>} subtitle={<>Trusted by 100,000+ creators, founders, and early adopters building the future of Al. <br />
-        Find the next big thing — or become the one who makes it go viral.
+      <MainHeader title={<>The Fastest Way to Grow Any Business — Without 
+ <br /> Ads, Agencies, or Algorithms.
+      </>} subtitle={<>EGEAL connects you with top influencers, viral campaigns, powerful giveaway bots, and AI tools — so you <br/> can grow faster, spend less, and finally break through the noise.
+
       </>} className="rounded-lg">
         <div className="space-x-4 space-y-2">
           <SubButton title="Watch Demo" />
           <MainButton onClick={() => handleJoin()} title="Join the AI Strategy Grid($1)" />
         </div>
       </MainHeader>
+      <WhatYouCanDo></WhatYouCanDo>
       <InfluencerCount />
       <AISearchInterface />
       <TrendAnalysis />
       <TrendingAITools />
       <TopGainers />
+      <WhoIsEgealFor></WhoIsEgealFor>
       <BrowseTools />
       <AiStartUp />
     </Container>
     <Testimonial/>
+    {/* <LoadingSpinner></LoadingSpinner> */}
 
   </div>;
 

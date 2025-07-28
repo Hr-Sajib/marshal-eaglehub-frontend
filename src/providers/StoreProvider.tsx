@@ -1,5 +1,8 @@
 "use client";
+import StickyChatButton from "@/component/shared/chatStickyBtn";
+import LoadingSpinner from "@/component/shared/Loading";
 import { AppStore, makeStore } from "@/redux/store";
+import { usePathname } from "next/navigation";
 import { ReactNode, useRef } from "react";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
@@ -11,11 +14,16 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const persistStores = persistStore(storeRef.current);
+
+  const pathname = usePathname();
+
+  const isChatRoute = pathname?.includes("/chat-box");
   return (
     <Provider store={storeRef.current}>
-      <PersistGate loading={<p>Loding....</p>} persistor={persistStores}>
+      <PersistGate loading={<LoadingSpinner />} persistor={persistStores}>
         {" "}
-        {children}{" "}
+        {children}
+        {!isChatRoute && <StickyChatButton />}
       </PersistGate>
     </Provider>
   );

@@ -1,6 +1,7 @@
 import { RootState } from "@/redux/store";
 import { createSlice } from "@reduxjs/toolkit";
 type TUsers = {
+  id: string;
   email: string;
   role: string;
   iat: number;
@@ -25,7 +26,7 @@ const authSlice = createSlice({
       state.token = token;
     },
     logOut: (state) => {
-      (state.user = null), (state.token = null);
+      state.user = null
     },
   },
 });

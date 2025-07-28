@@ -9,9 +9,8 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useLoginUserMutation } from "@/redux/api/Auth/authApi";
 import { useAppDispatch } from "@/redux/hooks";
-import { jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { setUser } from "@/redux/api/Auth/auth.slice";
-
 
 type FormData = {
   email: string;
@@ -32,15 +31,17 @@ export default function LoginForm() {
     try {
       const response = await loginUser(data).unwrap();
 
-      const {email,role,id}=jwtDecode(response.data.accessToken) as any
-      
+      const { email, role, id } = jwtDecode(response.data.accessToken) as any;
 
-      console.log("this is decode data", )
- dispatch(setUser({ user:{email:email,role:role,id:id}, token: response.data.accessToken }));
+      dispatch(
+        setUser({
+          user: { email: email, role: role, id: id },
+          token: response.data.accessToken,
+        })
+      );
 
       // Redirect to success page first
-  
-      
+console.log("Login successful, redirecting...", response);
       // Show success message with role if available
       if (response.success) {
         const role = response.data?.role || "user";
@@ -51,7 +52,6 @@ export default function LoginForm() {
 
       // Then redirect to home
       setTimeout(() => router.push("/"), 1500);
-      
     } catch (error: any) {
       toast.error(error?.data?.message || "Login failed. Please try again.");
     }
@@ -70,12 +70,12 @@ export default function LoginForm() {
               Email Address
             </label>
             <input
-              {...register("email", { 
+              {...register("email", {
                 required: "Email is required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address"
-                }
+                  message: "Invalid email address",
+                },
               })}
               type="email"
               placeholder="example@email.com"
@@ -92,12 +92,12 @@ export default function LoginForm() {
             <label className="text-white block mb-1 text-sm">Password</label>
             <div className="relative">
               <input
-                {...register("password", { 
+                {...register("password", {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must be at least 6 characters"
-                  }
+                    message: "Password must be at least 6 characters",
+                  },
                 })}
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
@@ -139,7 +139,10 @@ export default function LoginForm() {
 
         <div className="text-center text-white text-xs underline">
           Don&lsquo;t have an account?{" "}
-          <Link href="/founder-influencer" className="text-red-400 hover:underline">
+          <Link
+            href="/founder-influencer"
+            className="text-red-400 hover:underline"
+          >
             Sign Up
           </Link>
         </div>
