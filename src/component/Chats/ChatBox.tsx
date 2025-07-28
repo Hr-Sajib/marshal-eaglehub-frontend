@@ -46,7 +46,7 @@ export default function ChatApp() {
 
   // socket connect only once
   useEffect(() => {
-    const s = io("http://localhost:5000", {
+    const s = io("https://marshall-server.vercel.app", {
       transports: ["websocket"],
       withCredentials: true,
     });
