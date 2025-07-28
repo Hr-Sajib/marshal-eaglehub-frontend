@@ -16,7 +16,7 @@ export default function AllPopupButtons() {
     },
     {
       title: 'You haven’t claimed a tool yet. Start here.',
-      description: 'If you cancel now, your progress will be deleted, and you will have to start over.',
+      description: 'If you cancel now, fdsf your progress will be deleted, and you will have to start over.',
       button: 'Let me Try',
       click : 'Start here'
       
@@ -28,7 +28,7 @@ export default function AllPopupButtons() {
       click : 'Setting up'
     },
     {
-      title: 'Continue from where you stopped last time?”',
+      title: 'Continue fromd where you stoppedd last time?”',
       description: '',
       button: 'Ok',
       click: 'Continue',
