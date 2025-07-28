@@ -11,7 +11,7 @@ import RedShadow from "@/component/shared/RedShadow";
 
 import { RightBorder } from "@/component/shared/RightBorder";
 import SubButton from "@/component/shared/SubButtton";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const DiscoverTrendingPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

@@ -1,6 +1,4 @@
 'use client';
-
-import React from 'react';
 import { LeftBorder } from '../shared/LeftBorder';
 import { RightBorder } from '../shared/RightBorder';
 import BotCard from './BotCard';

@@ -12,7 +12,7 @@ import MainHeader from "@/component/shared/MainHeader";
 
 import SubHeader from "@/component/shared/SubHeader";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Page = () => {
    const [isPopupOpen, setIsPopupOpen] = useState(false);
