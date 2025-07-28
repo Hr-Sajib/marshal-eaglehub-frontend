@@ -8,6 +8,7 @@ interface RoleData {
   additionalNotes: string;
   influencerId?:string 
 ,
+affiliations:string[]
   __v: number;
 }
 
