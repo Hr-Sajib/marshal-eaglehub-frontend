@@ -18,7 +18,6 @@ export interface CreateToolRequest {
   description: string;
   price: number;
   commissionRate: number;
-  toolId: string;
   isActive?: boolean;
   imageUrl: string;
   founderId: string;

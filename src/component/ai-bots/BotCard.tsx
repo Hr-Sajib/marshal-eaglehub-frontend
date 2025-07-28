@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { IBots } from './AITools'
 import { FaRegImage } from 'react-icons/fa'
 import MainButton from '../shared/MainButton'
