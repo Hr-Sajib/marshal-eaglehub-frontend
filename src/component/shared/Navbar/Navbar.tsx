@@ -5,8 +5,8 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import logo from "../../../../public/logo.png"; // Place your logo in /public
 import Link from "next/link";
-import { DecodedUser } from "@/types/auth/auth.type";
-import { getCurrentAuthUser } from "@/hooks/useCurrentUser";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { currentUser, logOut } from "@/redux/api/Auth/auth.slice";
 import { usePathname } from "next/navigation";
 
 type NavLink = {
@@ -16,38 +16,20 @@ type NavLink = {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<DecodedUser | null>(null);
-    const pathname = usePathname(); // ✅ current route
+  const users=useAppSelector(currentUser)
+const dispatch=useAppDispatch()
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    setUser(null);
-    // Optionally, redirect to login or home page
+    dispatch(logOut())
     window.location.href = "/login";
   };
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const userData = await getCurrentAuthUser();
+  console.log(users)
+const pathname =usePathname()
 
-        console.log("Fetched User Data:", userData);
-        if (userData) {
-          setUser(userData as DecodedUser);
-        } else {
-          console.error("No user data found");
-        }
-      } catch (error) {
-        console.error("Error decoding token:", error);
-      }
-    };
-    fetchCurrentUser();
-  }, []);
-
-  console.log("Current User:", user);
 
   const links: NavLink[] = [
     { label: "About", href: "/about" },
-    { label: "99 AI Projects", href: "/ai-course" },
+    { label: "99 AI Projects", href: "/tool" },
     { label: "Discover", href: "/discover-trending" },
     { label: "AI Bots", href: "/ai-bots" },
     { label: "Make money", href: "/make-maney" },
@@ -88,7 +70,7 @@ const Navbar = () => {
               );
             })}
 
-            {user ? (
+            {users ? (
               <button
                 onClick={handleLogout}
                 className="bg-red-600 px-10 py-3 rounded hover:bg-red-700 text-white transition"
