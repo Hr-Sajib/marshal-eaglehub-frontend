@@ -39,8 +39,8 @@ console.log("single data ",singleUser)
 console.log("tool data get ",toolData)
 
   const toolSingleData=toolData
-  const userSingleData=singleUser?.data.roleData.affiliations
-  const datas=userSingleData?.includes(toolData?.data.toolId as string)
+  const userSingleData=singleUser?.data?.roleData?.affiliations
+  const datas=userSingleData?.includes(toolData?.data?.toolId as string)
 
 
 
@@ -198,7 +198,7 @@ try {
       );
     }
 
-    if (!datas) {
+    if (!datas&&user.role==="influencer") {
       return (
         <button
           onClick={handleGenerateAffiliateLink}
