@@ -4,20 +4,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import {
-  FaLaptopCode,
-  FaPenFancy,
-  FaPodcast,
-  FaShoppingBag,
-} from "react-icons/fa";
-import { IconType } from "react-icons";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-} from "react-icons/fa";
+
 import { IAffiliate } from "@/types/Influencer.type";
 
 const PortfolioCard = ({

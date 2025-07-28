@@ -1,13 +1,59 @@
 import AddNewToolsForm from "@/component/allForms/AddNewTools";
 import CampaignPerformance from "@/component/founder-dashboard/CampaignPerformance";
-import { data } from "@/component/influencer-dashboard/SocialMediaCards";
 import TopGiveaways from "@/component/influencer-dashboard/TopGiveaways";
 import Container from "@/component/shared/Container";
 import MainHeader from "@/component/shared/MainHeader";
 import RedShadow from "@/component/shared/RedShadow";
 import SocialMediaCard from "@/component/shared/SocialMediaCard";
 import SubHeader from "@/component/shared/SubHeader";
+import { Instagram } from "lucide-react";
 import React from "react";
+import { FaDiscord, FaFacebook, FaYoutube } from "react-icons/fa";
+
+
+
+const data = [
+  {
+    id: "1",
+    platform: "Facebook",
+    icon: <FaFacebook className="w-8 h-8 text-white" />,
+    followers: "90K",
+    clicks: 567,
+    shares: 567,
+    comments: 567,
+    earnings: 567,
+  },
+  {
+    id: "2",
+    platform: "Instagram",
+    icon: <Instagram className="w-8 h-8 text-white" />,
+    followers: "90K",
+    clicks: 567,
+    shares: 567,
+    comments: 567,
+    earnings: 567,
+  },
+  {
+    id: "3",
+    platform: "YouTube",
+    icon: <FaYoutube className="w-8 h-8 text-white" />,
+    followers: "90K",
+    clicks: 567,
+    shares: 567,
+    comments: 567,
+    earnings: 567,
+  },
+  {
+    id: "4",
+    platform: "Discord",
+    icon: <FaDiscord className="w-8 h-8 text-white" />,
+    followers: "90K",
+    clicks: 567,
+    shares: 567,
+    comments: 567,
+    earnings: 567,
+  },
+];
 
 export default function page() {
   return (

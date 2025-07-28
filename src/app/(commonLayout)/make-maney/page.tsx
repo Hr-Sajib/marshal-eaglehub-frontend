@@ -14,7 +14,7 @@ import SubHeader from "@/component/shared/SubHeader";
 
 import React, { useState } from "react";
 
-const page = () => {
+const Page = () => {
    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
@@ -100,4 +100,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

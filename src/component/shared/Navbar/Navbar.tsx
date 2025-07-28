@@ -34,6 +34,7 @@ const Navbar = () => {
     { label: "Influencer", href: "/influencer-dashboard" },
     { label: "Giveaways", href: "/giveaways" },
     { label: "Current-Giveaways", href: "/current-giveaway" },
+    { label: "Participant", href: "/participant" },
   ];
 
   return (

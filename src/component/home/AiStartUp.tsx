@@ -1,8 +1,6 @@
 import React from 'react'
 import MainButton from '../shared/MainButton'
 import LeftShadow from '../shared/LeftShadow'
-import { LeftBorder } from '../shared/LeftBorder'
-import { RightBorder } from '../shared/RightBorder'
 import { RedRightBorder } from '../shared/RedRightBorder'
 import { useRouter } from "next/navigation";
 

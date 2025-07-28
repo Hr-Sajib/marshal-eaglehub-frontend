@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import toast, { Toaster } from "react-hot-toast";
@@ -46,14 +47,15 @@ export default function ProjectForm() {
     try {
       // Simulate API call or form submission
       // await api.submit(data);
-
+console.log(data)
       // Simulate random success/failure for testing
       if (Math.random() < 0.5) {
         throw new Error("Simulated failure");
       }
 
       toast.success("Project submitted successfully!");
-    } catch (error) {
+    } catch (error:any) {
+      console.log(error)
       toast.error("Submission failed. Please try again.");
     }
   };

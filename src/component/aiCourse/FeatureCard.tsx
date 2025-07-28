@@ -67,7 +67,7 @@ export const featureData: FeatureType[] = [
 
 export default function FeatureCard() {
 
-const {data,isLoading,isError}=useGetToolsQuery(undefined)
+const {data}=useGetToolsQuery(undefined)
 console.log(data)
 
   return (
