@@ -1,4 +1,3 @@
-
 import { baseApi } from "../baseApi";
 
 export const authApi = baseApi.injectEndpoints({
@@ -20,8 +19,12 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["User"],
     }),
     getCurrentUser: builder.query({
-      query: () => "/auth/me",
+      query: () => "/auth/me", // still not used
       providesTags: ["User"],
+    }),
+    getRoleBasedUserInfo: builder.query({
+      query: (userId) => `/user/get-roleBase-info/${userId}`,
+      providesTags: ["getRoleBasedUserInfo"],
     }),
   }),
 });
@@ -30,4 +33,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useGetCurrentUserQuery,
+  useGetRoleBasedUserInfoQuery,
 } = authApi;

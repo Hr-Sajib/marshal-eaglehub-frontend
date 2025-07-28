@@ -38,7 +38,7 @@ export const featureData: FeatureType[] = [
   },
   {
     id: 3,
-    title: "AI Recommendation Engine (Future)",
+    title: "AI Recommendatiodfsdfn Engine (Future)",
     description: [
       "Optimized for mobile, tablet, and desktop",
       "Flexible layout components",

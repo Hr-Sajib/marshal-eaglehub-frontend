@@ -5,6 +5,7 @@ type TUsers = {
   role: string;
   iat: number;
   exp: number;
+  id:string;
 };
 type TAuthSlice = {
   user: null | TUsers;

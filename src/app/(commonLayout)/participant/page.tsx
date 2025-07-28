@@ -1,4 +1,4 @@
-"use client";
+
 import AddParticipant from "@/component/participants/AddParticipants";
 import Container from "@/component/shared/Container";
 import MainHeader from "@/component/shared/MainHeader";
@@ -7,8 +7,6 @@ import Image from "next/image";
 import React from "react";
 
 export default function Page() {
-
-
   return (
     <div>
       <RedShadow />
@@ -16,7 +14,7 @@ export default function Page() {
         <MainHeader
           title={
             <>
-             Explore and join as a participant <br /> & Win Big
+              Explore and join as a participant <br /> & Win Big
               <div className="text-center">
                 <Image
                   src={"/line.svg"}
@@ -30,7 +28,8 @@ export default function Page() {
           }
           subtitle={
             <>
-              Explore exciting giveaways and get a chance to win fantastic prizes
+              Explore exciting giveaways and get a chance to win fantastic
+              prizes
             </>
           }
           className="rounded-lg"
@@ -38,7 +37,7 @@ export default function Page() {
           <div className="space-x-4 space-y-2 "></div>
         </MainHeader>
 
-        <AddParticipant/>
+        <AddParticipant />
       </Container>
     </div>
   );
